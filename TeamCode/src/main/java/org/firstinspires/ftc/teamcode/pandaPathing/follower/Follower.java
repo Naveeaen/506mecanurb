@@ -66,7 +66,7 @@ public class Follower {
     private DcMotorEx leftRear;
     private DcMotorEx rightFront;
     private DcMotorEx rightRear;
-    private List<DcMotorEx> motors;
+    public List<DcMotorEx> driveMotors;
 
     private DriveVectorScaler driveVectorScaler;
 
@@ -171,15 +171,15 @@ public class Follower {
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        motors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
+        driveMotors = Arrays.asList(leftFront, leftRear, rightFront, rightRear);
 
-        for (DcMotorEx motor : motors) {
+        for (DcMotorEx motor : driveMotors) {
             MotorConfigurationType motorConfigurationType = motor.getMotorType().clone();
             motorConfigurationType.setAchieveableMaxRPMFraction(1.0);
             motor.setMotorType(motorConfigurationType);
         }
 
-        for (DcMotorEx motor : motors) {
+        for (DcMotorEx motor : driveMotors) {
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         }
 
@@ -445,8 +445,8 @@ public class Follower {
 
                     limitDrivePowers();
 
-                    for (int i = 0; i < motors.size(); i++) {
-                        motors.get(i).setPower(drivePowers[i]);
+                    for (int i = 0; i < driveMotors.size(); i++) {
+                        driveMotors.get(i).setPower(drivePowers[i]);
                     }
                 } else {
                     if (isBusy) {
@@ -458,8 +458,8 @@ public class Follower {
 
                         limitDrivePowers();
 
-                        for (int i = 0; i < motors.size(); i++) {
-                            motors.get(i).setPower(drivePowers[i]);
+                        for (int i = 0; i < driveMotors.size(); i++) {
+                            driveMotors.get(i).setPower(drivePowers[i]);
                         }
                     }
                     if (currentPath.isAtParametricEnd()) {
@@ -502,8 +502,8 @@ public class Follower {
 
             limitDrivePowers();
 
-            for (int i = 0; i < motors.size(); i++) {
-                motors.get(i).setPower(drivePowers[i]);
+            for (int i = 0; i < driveMotors.size(); i++) {
+                driveMotors.get(i).setPower(drivePowers[i]);
             }
         }
     }
@@ -642,8 +642,8 @@ public class Follower {
         teleopDriveVector = new Vector();
         teleopHeadingVector = new Vector();
 
-        for (int i = 0; i < motors.size(); i++) {
-            motors.get(i).setPower(0);
+        for (int i = 0; i < driveMotors.size(); i++) {
+            driveMotors.get(i).setPower(0);
         }
     }
 
